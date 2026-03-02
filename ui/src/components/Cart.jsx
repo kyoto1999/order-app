@@ -4,7 +4,7 @@ function Cart({ items, onOrder }) {
   const totalAmount = items.reduce((sum, item) => sum + item.totalPrice * item.quantity, 0)
 
   const getItemKey = (item) => {
-    const optionsKey = item.options.map((o) => o.id).sort().join('-')
+    const optionsKey = (item.options ?? []).map((o) => o.id).sort().join('-')
     return `${item.menuId}-${optionsKey}`
   }
 
@@ -33,10 +33,10 @@ function Cart({ items, onOrder }) {
                 <li key={getItemKey(item)} className="cart__item">
                   <span className="cart__item-name">
                     {item.menuName}
-                    {item.options.length > 0 && (
+                    {item.options?.length > 0 && (
                       <span className="cart__item-options">
                         {' '}
-                        ({item.options.map((o) => o.name).join(', ')})
+                        ({(item.options ?? []).map((o) => o.name).join(', ')})
                       </span>
                     )}{' '}
                     X {item.quantity}

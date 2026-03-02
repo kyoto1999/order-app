@@ -35,6 +35,16 @@ export function AppProvider({ children }) {
       orderedAt: new Date(),
     }
     setOrders((prev) => [newOrder, ...prev])
+
+    // 주문 시 재고 차감
+    setInventory((prev) => {
+      const next = { ...prev }
+      orderItems.forEach((item) => {
+        const current = next[item.menuId] ?? 0
+        next[item.menuId] = Math.max(0, current - item.quantity)
+      })
+      return next
+    })
   }, [])
 
   const updateOrderStatus = useCallback((orderId, newStatus) => {

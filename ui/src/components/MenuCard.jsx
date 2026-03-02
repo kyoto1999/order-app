@@ -1,8 +1,12 @@
 import { useState } from 'react'
+import { useApp } from '../context/AppContext'
 import './MenuCard.css'
 
 function MenuCard({ menu, onAddToCart }) {
   const [selectedOptions, setSelectedOptions] = useState([])
+  const { inventory } = useApp()
+  const stock = inventory[menu.id] ?? 0
+  const isSoldOut = stock <= 0
 
   const handleOptionChange = (option) => {
     setSelectedOptions((prev) =>
@@ -13,6 +17,7 @@ function MenuCard({ menu, onAddToCart }) {
   }
 
   const handleAddToCart = () => {
+    if (isSoldOut) return
     const options = menu.options.filter((opt) => selectedOptions.includes(opt.id))
     const additionalPrice = options.reduce((sum, opt) => sum + opt.additionalPrice, 0)
     const totalPrice = menu.price + additionalPrice
@@ -62,8 +67,9 @@ function MenuCard({ menu, onAddToCart }) {
         type="button"
         className="menu-card__add-btn"
         onClick={handleAddToCart}
+        disabled={isSoldOut}
       >
-        담기
+        {isSoldOut ? '품절' : '담기'}
       </button>
     </article>
   )

@@ -89,6 +89,11 @@
   transition: background 0.2s;
 }
 
-.menu-card__add-btn:hover {
+.menu-card__add-btn:hover:not(:disabled) {
   background: #1d4ed8;
+}
+
+.menu-card__add-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
 }
