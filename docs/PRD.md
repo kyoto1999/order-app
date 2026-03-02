@@ -201,3 +201,109 @@
 - 관리자 대시보드: "총 주문 1 / 주문 접수 1 / 제조 중 0 / 제조 완료 0"
 - 재고 현황: 아메리카노(ICE), 아메리카노(HOT), 카페라떼 각 10개, +/- 버튼
 - 주문 현황: 7월 31일 13:00, 아메리카노(ICE) x 1, 4,000원, [주문 접수] 버튼
+
+---
+
+## 6. 백엔드 개발 PRD
+
+### 6.1 데이터 모델
+
+#### 6.1.1 Menus (메뉴)
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | PK | 메뉴 고유 식별자 |
+| name | string | 커피 이름 |
+| description | string | 메뉴 설명 |
+| price | number | 기본 가격 (원) |
+| image_url | string | 이미지 URL |
+| stock | number | 재고 수량 |
+
+#### 6.1.2 Options (옵션)
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | PK | 옵션 고유 식별자 |
+| name | string | 옵션 이름 (예: 샷 추가, 시럽 추가) |
+| additional_price | number | 옵션 추가 가격 (원) |
+| menu_id | FK | 연결할 메뉴 ID |
+
+#### 6.1.3 Orders (주문)
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | PK | 주문 고유 식별자 |
+| ordered_at | timestamp | 주문 일시 |
+| status | string | 주문 상태 (received / in_production / completed) |
+| total_price | number | 주문 총 금액 (원) |
+
+#### 6.1.4 Order_Items (주문 항목)
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | PK | 주문 항목 고유 식별자 |
+| order_id | FK | 주문 ID |
+| menu_id | FK | 메뉴 ID |
+| menu_name | string | 메뉴명 (주문 시점 스냅샷) |
+| quantity | number | 수량 |
+| unit_price | number | 단가 (메뉴 가격 + 옵션 가격) |
+| options | JSON/string | 선택한 옵션 정보 (이름, 추가 가격 등) |
+
+### 6.2 데이터 스키마 사용자 흐름
+
+| 단계 | 흐름 | 설명 |
+|------|------|------|
+| (1) | Menus 조회 → 화면 표시 | Menus 테이블에서 메뉴 목록을 가져와 브라우저에 표시. 재고 수량(stock)은 관리자 화면에만 표시 |
+| (2) | 메뉴 선택 → 장바구니 | 사용자가 메뉴를 선택해 담으면, 선택 정보(메뉴, 옵션, 수량)가 장바구니에 표시됨 |
+| (3) | 주문하기 → Orders 저장 | 장바구니에서 '주문하기' 클릭 시 주문 정보를 Orders에 저장. 주문 시간, 주문 내용(메뉴, 수량, 옵션, 금액) 포함. 동시에 해당 메뉴 재고 차감 |
+| (4) | Orders → 관리자 주문 현황 | Orders 정보를 관리자 화면 '주문 현황'에 표시. 기본 상태는 '주문 접수'. '제조 시작' 클릭 시 '제조 중' → '제조 완료' 클릭 시 '완료'로 상태 변경 |
+
+### 6.3 API 설계
+
+#### 6.3.1 메뉴 목록 조회
+| 항목 | 내용 |
+|------|------|
+| 용도 | '주문하기' 화면 로드 시 커피 메뉴 목록 표시 |
+| Method | GET |
+| 경로 | `/api/menus` |
+| 응답 | 메뉴 목록 (id, name, description, price, image_url, stock, options[]) |
+
+#### 6.3.2 주문 생성
+| 항목 | 내용 |
+|------|------|
+| 용도 | 사용자가 '주문하기' 버튼 클릭 시 주문 정보 저장 |
+| Method | POST |
+| 경로 | `/api/orders` |
+| 요청 Body | `{ items: [{ menuId, menuName, options[], quantity, unitPrice, totalPrice }], totalPrice }` |
+| 처리 | Orders 및 Order_Items에 저장, 해당 메뉴의 Menus.stock 차감 |
+| 응답 | 생성된 주문 정보 (id, ordered_at, status, total_price 등) |
+
+#### 6.3.3 주문 단건 조회
+| 항목 | 내용 |
+|------|------|
+| 용도 | 주문 ID로 해당 주문 상세 정보 조회 |
+| Method | GET |
+| 경로 | `/api/orders/:id` |
+| 응답 | 주문 정보 (id, ordered_at, status, total_price, items[]) |
+
+#### 6.3.4 주문 목록 조회 (관리자용)
+| 항목 | 내용 |
+|------|------|
+| 용도 | 관리자 화면 '주문 현황' 목록 표시 |
+| Method | GET |
+| 경로 | `/api/orders` |
+| 응답 | 주문 목록 (필터/정렬 옵션 포함 가능) |
+
+#### 6.3.5 주문 상태 변경 (관리자용)
+| 항목 | 내용 |
+|------|------|
+| 용도 | '제조 시작', '제조 완료' 버튼 클릭 시 주문 상태 업데이트 |
+| Method | PATCH |
+| 경로 | `/api/orders/:id/status` |
+| 요청 Body | `{ status: 'in_production' | 'completed' }` |
+| 응답 | 업데이트된 주문 정보 |
+
+#### 6.3.6 재고 수정 (관리자용)
+| 항목 | 내용 |
+|------|------|
+| 용도 | 관리자 화면에서 메뉴별 재고 +/- 조절 |
+| Method | PATCH |
+| 경로 | `/api/menus/:id/stock` |
+| 요청 Body | `{ delta: number }` (증가/감소 값) |
+| 응답 | 업데이트된 메뉴 정보 (stock 포함) |
