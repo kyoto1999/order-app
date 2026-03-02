@@ -1,0 +1,14 @@
+.admin-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-page__main {
+  flex: 1;
+  padding: 2rem;
+}
+
+.admin-page__main p {
+  color: #6b7280;
+}

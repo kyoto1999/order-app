@@ -1,0 +1,44 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #2563eb;
+}
+
+.header__logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.header__nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.header__tab {
+  padding: 0.5rem 1rem;
+  background: #2563eb;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.header__tab:hover {
+  background: #1d4ed8;
+}
+
+.header__tab--active {
+  background: #fff;
+  color: #2563eb;
+}
+
+.header__tab--active:hover {
+  background: #f0f9ff;
+  color: #1d4ed8;
+}

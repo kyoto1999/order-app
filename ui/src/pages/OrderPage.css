@@ -1,0 +1,27 @@
+.order-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-page__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.order-page__menus {
+  display: grid;
+  grid-template-columns: repeat(3, 280px);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.order-page__cart {
+  width: 100%;
+  /* 메뉴 3개(280px × 3) + 간격(1.5rem × 2)과 동일한 너비 */
+  max-width: calc(280px * 3 + 1.5rem * 2);
+}

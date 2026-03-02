@@ -1,0 +1,94 @@
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  max-width: 280px;
+}
+
+.menu-card__image {
+  aspect-ratio: 1;
+  background: #f3f4f6;
+}
+
+.menu-card__image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  background: linear-gradient(135deg, #e5e7eb 25%, transparent 25%),
+    linear-gradient(225deg, #e5e7eb 25%, transparent 25%),
+    linear-gradient(45deg, #e5e7eb 25%, transparent 25%),
+    linear-gradient(315deg, #e5e7eb 25%, #f9fafb 25%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+}
+
+.menu-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-card__name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 1rem 1rem 0;
+}
+
+.menu-card__price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0.25rem 1rem 0;
+}
+
+.menu-card__description {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0.5rem 1rem 0;
+  line-height: 1.4;
+}
+
+.menu-card__options {
+  margin: 1rem 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.menu-card__option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.menu-card__option input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #2563eb;
+}
+
+.menu-card__add-btn {
+  margin: 1rem;
+  padding: 0.75rem 1rem;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menu-card__add-btn:hover {
+  background: #1d4ed8;
+}
