@@ -9,3 +9,13 @@
   padding: 2rem;
   max-width: 900px;
 }
+
+.admin-page__loading,
+.admin-page__error {
+  padding: 2rem;
+  text-align: center;
+}
+
+.admin-page__error {
+  color: #dc2626;
+}

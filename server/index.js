@@ -2,12 +2,17 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import { initDb, testConnection } from './db/init.js'
+import menusRouter from './routes/menus.js'
+import ordersRouter from './routes/orders.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
 app.use(cors())
 app.use(express.json())
+
+app.use('/api/menus', menusRouter)
+app.use('/api/orders', ordersRouter)
 
 app.get('/', (req, res) => {
   res.redirect('/api/health')

@@ -1,11 +1,9 @@
 import { useState } from 'react'
-import { useApp } from '../context/AppContext'
 import './MenuCard.css'
 
 function MenuCard({ menu, onAddToCart }) {
   const [selectedOptions, setSelectedOptions] = useState([])
-  const { inventory } = useApp()
-  const stock = inventory[menu.id] ?? 0
+  const stock = menu.stock ?? 0
   const isSoldOut = stock <= 0
 
   const handleOptionChange = (option) => {

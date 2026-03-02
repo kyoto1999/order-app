@@ -25,3 +25,13 @@
   /* 메뉴 3개(280px × 3) + 간격(1.5rem × 2)과 동일한 너비 */
   max-width: calc(280px * 3 + 1.5rem * 2);
 }
+
+.order-page__loading,
+.order-page__error {
+  padding: 2rem;
+  text-align: center;
+}
+
+.order-page__error {
+  color: #dc2626;
+}
