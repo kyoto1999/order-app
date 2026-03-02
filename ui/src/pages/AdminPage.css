@@ -7,8 +7,5 @@
 .admin-page__main {
   flex: 1;
   padding: 2rem;
-}
-
-.admin-page__main p {
-  color: #6b7280;
+  max-width: 900px;
 }

@@ -1,0 +1,86 @@
+.order-status {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.order-status__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.order-status__empty {
+  color: #6b7280;
+  font-size: 0.875rem;
+  padding: 1rem 0;
+}
+
+.order-status__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.order-status__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.order-status__item:last-child {
+  border-bottom: none;
+}
+
+.order-status__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.order-status__date {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.order-status__menu {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.order-status__price {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.order-status__actions {
+  flex-shrink: 0;
+}
+
+.order-status__btn {
+  padding: 0.5rem 1rem;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.order-status__btn:hover {
+  background: #1d4ed8;
+}
+
+.order-status__badge {
+  padding: 0.5rem 1rem;
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}

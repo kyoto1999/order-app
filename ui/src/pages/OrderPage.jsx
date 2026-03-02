@@ -3,10 +3,12 @@ import { MENUS } from '../data/menus'
 import Header from '../components/Header'
 import MenuCard from '../components/MenuCard'
 import Cart from '../components/Cart'
+import { useApp } from '../context/AppContext'
 import './OrderPage.css'
 
 function OrderPage() {
   const [cartItems, setCartItems] = useState([])
+  const { addOrder } = useApp()
 
   const handleAddToCart = (item) => {
     setCartItems((prev) => [...prev, item])
@@ -14,7 +16,12 @@ function OrderPage() {
 
   const handleOrder = () => {
     if (cartItems.length === 0) return
-    alert('주문이 접수되었습니다! (백엔드 연동 전)')
+    const totalAmount = cartItems.reduce(
+      (sum, item) => sum + item.totalPrice * item.quantity,
+      0
+    )
+    addOrder(cartItems, totalAmount)
+    alert('주문이 접수되었습니다!')
     setCartItems([])
   }
 
