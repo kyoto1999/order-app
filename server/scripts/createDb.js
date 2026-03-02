@@ -10,6 +10,7 @@ async function createDatabase() {
     database: 'postgres',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD,
+    ssl: { rejectUnauthorized: false },
   })
 
   try {
